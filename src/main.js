@@ -244,7 +244,11 @@ async function doSignIn(btn) {
     await cloud.signIn();
   } catch (e) {
     const c = e && e.code;
-    if (c !== 'auth/popup-closed-by-user' && c !== 'auth/cancelled-popup-request') {
+    if (c === 'auth/popup-blocked') {
+      toast('err', 'Your browser blocked the sign-in window. Allow pop-ups for this site, then try again.');
+    } else if (c === 'auth/network-request-failed') {
+      toast('err', 'Couldn’t reach Google. Check your connection and try again.');
+    } else if (c !== 'auth/popup-closed-by-user' && c !== 'auth/cancelled-popup-request') {
       toast('err', 'Sign-in didn’t complete. Please try again.');
     }
   } finally {
