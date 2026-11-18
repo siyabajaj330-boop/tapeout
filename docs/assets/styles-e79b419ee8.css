@@ -416,3 +416,19 @@ textarea.scratch { font: 13px/1.6 var(--mono); min-height: 200px; }
 .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
 @media (max-width: 760px) { .principles { grid-template-columns: 1fr; } .founder { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .signin span { display: none; } .signin { padding: 0 10px; } .links a { padding: 7px 8px; } }
+
+/* ---------- narrow screens: keep the account controls visible ---------- */
+@media (max-width: 640px) {
+  .logo { flex: none; }
+  .links { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  .links::-webkit-scrollbar { display: none; }
+  .nav-r { flex: none; gap: 8px; }
+}
+@media (max-width: 420px) {
+  .solvedpill { display: none; }
+  .logo { font-size: 0; gap: 0; }
+  .logo-mark { font-size: 15px; }
+}
+.foot-in nav { flex-wrap: wrap; gap: 10px 20px; }
+.pv-foot { flex-wrap: wrap; }
+.hero .badge { max-width: 100%; }
