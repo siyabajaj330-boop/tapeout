@@ -3,8 +3,8 @@
 // is blocked or Google services are unreachable.
 import { initializeApp } from 'firebase/app';
 import {
-  getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect,
-  getRedirectResult, signOut, deleteUser, reauthenticateWithPopup,
+  getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup,
+  signOut, deleteUser, reauthenticateWithPopup,
 } from 'firebase/auth';
 import {
   getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, serverTimestamp,
@@ -18,7 +18,6 @@ export function init(config) {
   db = getFirestore(app);
   provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  getRedirectResult(auth).catch(() => {});
 }
 
 export function onUser(cb) {
@@ -30,17 +29,10 @@ export function onUser(cb) {
   } : null));
 }
 
+// Pop-up sign-in only. Redirect sign-in breaks in browsers that partition third-party
+// storage when the auth domain differs from the site's domain, so it isn't offered.
 export async function signIn() {
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (e) {
-    const code = e && e.code;
-    if (code === 'auth/popup-blocked' || code === 'auth/operation-not-supported-in-this-environment') {
-      await signInWithRedirect(auth, provider);
-      return;
-    }
-    throw e;
-  }
+  await signInWithPopup(auth, provider);
 }
 
 export function signOutUser() {
